@@ -4,7 +4,7 @@ export interface MetaTag {
   property?: string
   'http-equiv'?: string
   content?: string
-  [attributeKey: string]: any
+  [attributeKey: string]: string | undefined
 }
 export interface LinkTag {
   rel?: string
@@ -12,14 +12,14 @@ export interface LinkTag {
   size?: string
   type?: string
   media?: string
-  [attributeKey: string]: any
+  [attributeKey: string]: string | undefined
 }
 export interface MetaTagsConfig {
   title?: string
   description?: string
   lang?: string
   charset?: string
-  metas?: Array<MetaTag>
+  metas?: MetaTag[],
   links?: LinkTag[]
   openGraph?: {
     [key: string]: string | undefined,
