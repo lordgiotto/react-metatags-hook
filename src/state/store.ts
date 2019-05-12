@@ -25,7 +25,7 @@ const emitChanges = (config: MetaTagModel) => {
 
 // Public
 export const addMetasToStore = (instanceConfig: InstanceConfig) => {
-  metaStore.add(instanceConfig)
+  !metaStore.has(instanceConfig) && metaStore.add(instanceConfig)
   emitChanges(mergeInstanceConfigs(metaStore))
 }
 export const removeMetasFromStore = (instanceConfig: InstanceConfig) => {
