@@ -7,16 +7,28 @@
   "types": "./dist/index.d.ts",
   "author": "Lorenzo Zottar <lordgiotto@gmail.com>",
   "license": "MIT",
+  "keywords": [
+    "react",
+    "hook",
+    "meta",
+    "tag",
+    "dom"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lordgiotto/react-metatags-hook.git"
   },
+  "bugs": {
+    "url": "https://github.com/lordgiotto/react-metatags-hook/issues"
+  },
+  "homepage": "https://github.com/lordgiotto/react-metatags-hook/",
   "scripts": {
     "watch": "rollup -c -w",
     "build": "rollup -c --environment BUILD:production",
     "check:all": "concurrently --kill-others-on-fail yarn:check:ts yarn:check:lint",
     "check:ts": "tsc --noEmit",
-    "check:lint": "tslint --project ."
+    "check:lint": "tslint --project .",
+    "prepublish": "yarn check:all && yarn build"
   },
   "devDependencies": {
     "@types/react": "^16.8.17",
