@@ -1,0 +1,41 @@
+{
+  "name": "react-metatags-hook",
+  "version": "1.0.0",
+  "description": "React Hook to manage html meta tags",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.es.js",
+  "types": "./dist/index.d.ts",
+  "author": "Lorenzo Zottar <lordgiotto@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lordgiotto/react-metatags-hook.git"
+  },
+  "scripts": {
+    "watch": "rollup -c -w",
+    "build": "rollup -c --environment BUILD:production",
+    "check:all": "concurrently --kill-others-on-fail yarn:check:ts yarn:check:lint",
+    "check:ts": "tsc --noEmit",
+    "check:lint": "tslint --project ."
+  },
+  "devDependencies": {
+    "@types/react": "^16.8.17",
+    "concurrently": "^4.1.0",
+    "rollup": "^1.11.3",
+    "rollup-plugin-clear": "^2.0.7",
+    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^4.2.4",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-terser": "^4.0.4",
+    "rollup-plugin-typescript2": "^0.21.0",
+    "tslint": "^5.16.0",
+    "tslint-config-standard": "^8.0.1",
+    "tslint-react": "^4.0.0",
+    "tslint-react-hooks": "^2.1.0",
+    "typescript": "^3.4.5"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0"
+  }
+}

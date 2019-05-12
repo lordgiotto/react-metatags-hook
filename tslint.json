@@ -1,0 +1,28 @@
+{
+  "extends": ["tslint-config-standard", "tslint-react", "tslint-react-hooks"],
+  "rules": {
+    "strict-type-predicates": false,
+    "no-empty": [true, "allow-empty-functions"],
+    "react-hooks-nesting": "error",
+    "jsx-no-multiline-js": false,
+    "jsx-no-lambda": false,
+    "jsx-boolean-value": false,
+    "no-floating-promises": false,
+    "no-console": true,
+    "trailing-comma": [
+      true,
+      {
+        "multiline": {
+          "arrays": "always",
+          "objects": "always",
+          "functions": "never",
+          "typeLiterals": "always",
+          "exports": "always",
+          "imports": "always"
+        },
+        "singleline": "never",
+        "esSpecCompliant": true
+      }
+    ]
+  }
+}
