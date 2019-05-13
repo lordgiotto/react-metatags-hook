@@ -28,7 +28,7 @@ or
 ```
 ## Example
 ``` js
-import useMetaTag from 'react-metatags-hook'
+import useMetaTags from 'react-metatags-hook'
 
 const Component = ({
   match,
@@ -37,7 +37,7 @@ const Component = ({
     params: { id },
     url,
   } = match
-  useMetaTag({
+  useMetaTags({
     title: `Page Title`,
     description: `An interesting page description with id: ${id}`,
     charset: 'utf8',
