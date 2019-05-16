@@ -28,7 +28,7 @@
     "check:all": "concurrently --kill-others-on-fail yarn:check:ts yarn:check:lint",
     "check:ts": "tsc --noEmit",
     "check:lint": "tslint --project .",
-    "prepublish": "yarn check:all && yarn build"
+    "prepublishOnly": "yarn check:all && yarn build"
   },
   "devDependencies": {
     "@types/react": "^16.8.17",
