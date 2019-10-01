@@ -30,7 +30,7 @@
     "check:lint": "tslint --project .",
     "prepublishOnly": "yarn check:all && yarn build",
     "test": "jarn",
-    "test-ui": "majestic"
+    "test:ui": "majestic"
   },
   "devDependencies": {
     "@types/jest": "^24.0.13",
