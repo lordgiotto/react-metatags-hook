@@ -83,8 +83,11 @@ const parseMetaConfig = ({
   ) as InternalTag[]
   const tags = fullTagsList
     .reduce((acc, internalTag) => {
-      const tagQueryId = internalTag.query.map(({ key, value }) => `${key}=${value}`).join('~')
-      const tagId = `${internalTag.tag}${tagQueryId}`
+      const tagQueryId =
+        internalTag.query
+          .map(({ key = '', value = '' }) => `${key}=${value}`)
+          .join('~')
+      const tagId = `${internalTag.tag}_${tagQueryId}`
       return {
         ...acc,
         [tagId]: internalTag,
