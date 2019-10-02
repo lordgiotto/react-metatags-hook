@@ -137,5 +137,30 @@ describe('Render > DOM', () => {
         'width=device-width, initial-scale=2'
       )
     })
+    it('should debounce the dom update for the specified time', async () => {
+      updateDom({
+        title: 'Eager Title',
+        tags: {},
+      })
+      await wait(0)
+      updateDom(
+        {
+          title: 'Nonexistent Title',
+          tags: {},
+        },
+        20
+      )
+      updateDom(
+        {
+          title: 'Lazy Title',
+          tags: {},
+        },
+        20
+      )
+      await wait(0)
+      expect(document.title).toBe('Eager Title')
+      await wait(25)
+      expect(document.title).toBe('Lazy Title')
+    })
   })
 })
