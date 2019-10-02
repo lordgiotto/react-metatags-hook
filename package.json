@@ -29,7 +29,7 @@
     "check:ts": "tsc --noEmit",
     "check:lint": "tslint --project .",
     "prepublishOnly": "yarn check:all && yarn build",
-    "test": "jarn",
+    "test": "jest",
     "test:ui": "majestic"
   },
   "devDependencies": {
