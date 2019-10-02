@@ -1,5 +1,6 @@
 ### Project ###
-dist/
+/dist/
+/coverage/
 .env
 .cache
 .rpt2_cache
