@@ -33,9 +33,13 @@ const tags = {
 
 describe('Render > DOM', () => {
   describe('updateDom()', () => {
-    afterEach(() => {
+    const resetDom = () => {
+      document.title = ''
+      document.documentElement.lang = ''
       document.head.innerHTML = ''
-    })
+    }
+    beforeAll(resetDom)
+    afterEach(resetDom)
     it('should add the title tag', async () => {
       updateDom({ title: 'ABC', tags: {} })
       await wait(0)
@@ -98,6 +102,40 @@ describe('Render > DOM', () => {
       expect(charsetTagNew).toBeTruthy()
       expect(viewPortTagNew).toBeFalsy()
       expect(appleIconTagNew).toBeFalsy()
+    })
+    it('should update dom elements instead of recreate them if same tags are provided', async () => {
+      updateDom({
+        tags: {
+          'meta~name=viewport': {
+            tag: 'meta',
+            attributes: {
+              name: 'viewport',
+              content: 'width=device-width, initial-scale=1',
+            },
+            query: [{ key: 'name', value: 'viewport' }],
+          },
+        },
+      })
+      await wait(0)
+      const viewPortTag1 = document.head.querySelector('meta[name=viewport]')!
+      updateDom({
+        tags: {
+          'meta~name=viewport': {
+            tag: 'meta',
+            attributes: {
+              name: 'viewport',
+              content: 'width=device-width, initial-scale=2',
+            },
+            query: [{ key: 'name', value: 'viewport' }],
+          },
+        },
+      })
+      await wait(0)
+      const viewPortTag2 = document.head.querySelector('meta[name=viewport]')!
+      expect(viewPortTag1).toBe(viewPortTag2)
+      expect(viewPortTag2.getAttribute('content')).toBe(
+        'width=device-width, initial-scale=2'
+      )
     })
   })
 })
