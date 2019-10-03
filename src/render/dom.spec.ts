@@ -2,6 +2,14 @@ import { updateDom } from './dom'
 import { wait } from '../helpers/patience'
 
 const tags = {
+  'meta~name=description': {
+    tag: 'meta',
+    attributes: {
+      name: 'description',
+      content: 'a description',
+    },
+    query: [{ key: 'name', value: 'description' }],
+  },
   'meta~charset=utf8': {
     tag: 'meta',
     attributes: {
@@ -55,14 +63,18 @@ describe('Render > DOM', () => {
       await wait(0)
       const metas = document.head.querySelectorAll('meta')
       const links = document.head.querySelectorAll('link')
-      const charsetTag = document.head.querySelector('meta[charset=utf8]')!
-      const viewPortTag = document.head.querySelector('meta[name=viewport]')!
-      const appleIconTag = document.head.querySelector(
-        'link[rel=apple-touch-icon]'
+      const descriptionTag = document.head.querySelector(
+        'meta[name="description"]'
       )!
-      expect(metas).toHaveLength(2)
+      const charsetTag = document.head.querySelector('meta[charset="utf8"]')!
+      const viewPortTag = document.head.querySelector('meta[name="viewport"]')!
+      const appleIconTag = document.head.querySelector(
+        'link[rel="apple-touch-icon"]'
+      )!
+      expect(metas).toHaveLength(3)
       expect(links).toHaveLength(1)
       expect(charsetTag).toBeTruthy()
+      expect(descriptionTag.getAttribute('content')).toBe('a description')
       expect(viewPortTag.getAttribute('content')).toBe(
         'width=device-width, initial-scale=1'
       )
@@ -72,10 +84,10 @@ describe('Render > DOM', () => {
     it('should remove tags if not present in a subsequent update', async () => {
       updateDom({ tags })
       await wait(0)
-      const charsetTag = document.head.querySelector('meta[charset=utf8]')!
-      const viewPortTag = document.head.querySelector('meta[name=viewport]')!
+      const charsetTag = document.head.querySelector('meta[charset="utf8"]')!
+      const viewPortTag = document.head.querySelector('meta[name="viewport"]')!
       const appleIconTag = document.head.querySelector(
-        'link[rel=apple-touch-icon]'
+        'link[rel="apple-touch-icon"]'
       )!
       expect(charsetTag).toBeTruthy()
       expect(viewPortTag).toBeTruthy()
@@ -92,12 +104,14 @@ describe('Render > DOM', () => {
         },
       })
       await wait(0)
-      const charsetTagNew = document.head.querySelector('meta[charset=utf8]')!
+      const charsetTagNew = document.head.querySelector(
+        'meta[charset="utf8"]'
+      )!
       const viewPortTagNew = document.head.querySelector(
-        'meta[name=viewport]'
+        'meta[name="viewport"]'
       )!
       const appleIconTagNew = document.head.querySelector(
-        'link[rel=apple-touch-icon]'
+        'link[rel="apple-touch-icon"]'
       )!
       expect(charsetTagNew).toBeTruthy()
       expect(viewPortTagNew).toBeFalsy()
@@ -117,7 +131,9 @@ describe('Render > DOM', () => {
         },
       })
       await wait(0)
-      const viewPortTag1 = document.head.querySelector('meta[name=viewport]')!
+      const viewPortTag1 = document.head.querySelector(
+        'meta[name="viewport"]'
+      )!
       updateDom({
         tags: {
           'meta~name=viewport': {
@@ -131,7 +147,9 @@ describe('Render > DOM', () => {
         },
       })
       await wait(0)
-      const viewPortTag2 = document.head.querySelector('meta[name=viewport]')!
+      const viewPortTag2 = document.head.querySelector(
+        'meta[name="viewport"]'
+      )!
       expect(viewPortTag1).toBe(viewPortTag2)
       expect(viewPortTag2.getAttribute('content')).toBe(
         'width=device-width, initial-scale=2'
