@@ -120,7 +120,7 @@ describe('State > Parse', () => {
         href: '/apple-72.png',
       })
     })
-    it('should add openGraph metas the tags list in the model', () => {
+    it('should add openGraph metas to the tags list in the model', () => {
       const ogTitle = metaTagsModel.tags['meta_property=og:title']
       const ogSite = metaTagsModel.tags['meta_property=og:site_name']
       expect(ogTitle.tag).toBe('meta')
@@ -138,7 +138,7 @@ describe('State > Parse', () => {
         content: 'My Site',
       })
     })
-    it('should add twitter metas the tags list in the model', () => {
+    it('should add twitter metas to the tags list in the model', () => {
       const twitterCard = metaTagsModel.tags['meta_property=twitter:card']
       const twitterCreator =
         metaTagsModel.tags['meta_property=twitter:creator']
