@@ -3,7 +3,7 @@
   "rules": {
     "strict-type-predicates": false,
     "no-empty": [true, "allow-empty-functions"],
-    "react-hooks-nesting": "error",
+    "react-hooks-nesting": false,
     "jsx-no-multiline-js": false,
     "jsx-no-lambda": false,
     "jsx-boolean-value": false,
