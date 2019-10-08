@@ -68,22 +68,7 @@ describe('Meta Tags Hook', () => {
       )
       unmount()
     })
-    it('should add the charset tag', async () => {
-      const { unmount } = renderHook(() =>
-        useMetaTags({
-          charset: 'utf-8',
-        })
-      )
-      expect(
-        queryHeadSelectorAttribute('meta[charset]', 'charset')
-      ).toBeUndefined()
-      await wait(50)
-      expect(queryHeadSelectorAttribute('meta[charset]', 'charset')).toBe(
-        'utf-8'
-      )
-      unmount()
-    })
-    it('should add any meta tag', async () => {
+    it('should add meta tags', async () => {
       const { unmount } = renderHook(() =>
         useMetaTags({
           metas: [
@@ -125,6 +110,110 @@ describe('Meta Tags Hook', () => {
       expect(queryHeadSelectorAttribute('meta[any="value"]', 'foo')).toBe(
         'baz'
       )
+      unmount()
+    })
+    it('should add link tags', async () => {
+      const { unmount } = renderHook(() =>
+        useMetaTags({
+          links: [
+            { rel: 'icon', type: 'image/ico', href: '/favicon.ico' },
+            {
+              rel: 'apple-touch-icon',
+              sizes: '72x72',
+              type: 'image/png',
+              href: '/apple-72.png',
+            },
+            { rel: 'stylesheet', href: '/style.css' },
+          ],
+        })
+      )
+      expect(
+        queryHeadSelectorAttribute('link[rel="icon"]', 'href')
+      ).toBeUndefined()
+      expect(
+        queryHeadSelectorAttribute('link[rel="apple-touch-icon"]', 'href')
+      ).toBeUndefined()
+      expect(
+        queryHeadSelectorAttribute('link[rel="stylesheet"]', 'href')
+      ).toBeUndefined()
+      await wait(50)
+      expect(queryHeadSelectorAttribute('link[rel="icon"]', 'href')).toBe(
+        '/favicon.ico'
+      )
+      expect(
+        queryHeadSelectorAttribute('link[rel="apple-touch-icon"]', 'href')
+      ).toBe('/apple-72.png')
+      expect(queryHeadSelectorAttribute('link[rel="stylesheet"]', 'href')).toBe(
+        '/style.css'
+      )
+      unmount()
+    })
+    it('should add open graph tags', async () => {
+      const { unmount } = renderHook(() =>
+        useMetaTags({
+          openGraph: {
+            title: 'Page Title',
+            site_name: 'My Site',
+            any: 'value',
+          },
+        })
+      )
+      expect(
+        queryHeadSelectorAttribute('meta[property="og:title"]', 'content')
+      ).toBeUndefined()
+      expect(
+        queryHeadSelectorAttribute('meta[property="og:site_name"]', 'content')
+      ).toBeUndefined()
+      expect(
+        queryHeadSelectorAttribute('meta[property="og:any"]', 'content')
+      ).toBeUndefined()
+      await wait(50)
+      expect(
+        queryHeadSelectorAttribute('meta[property="og:title"]', 'content')
+      ).toBe('Page Title')
+      expect(
+        queryHeadSelectorAttribute('meta[property="og:site_name"]', 'content')
+      ).toBe('My Site')
+      expect(
+        queryHeadSelectorAttribute('meta[property="og:any"]', 'content')
+      ).toBe('value')
+      unmount()
+    })
+    it('should add twitter tags', async () => {
+      const { unmount } = renderHook(() =>
+        useMetaTags({
+          twitter: {
+            card: 'summary',
+            creator: '@you',
+            any: 'value',
+          },
+        })
+      )
+      expect(
+        queryHeadSelectorAttribute('meta[property="twitter:card"]', 'content')
+      ).toBeUndefined()
+      expect(
+        queryHeadSelectorAttribute(
+          'meta[property="twitter:creator"]',
+          'content'
+        )
+      ).toBeUndefined()
+      expect(
+        queryHeadSelectorAttribute('meta[property="twitter:any"]', 'content')
+      ).toBeUndefined()
+      await wait(50)
+      expect(
+        queryHeadSelectorAttribute('meta[property="twitter:card"]', 'content')
+      ).toBe('summary')
+      expect(
+        queryHeadSelectorAttribute(
+          'meta[property="twitter:creator"]',
+          'content'
+        )
+      ).toBe('@you')
+      expect(
+        queryHeadSelectorAttribute('meta[property="twitter:any"]', 'content')
+      ).toBe('value')
       unmount()
     })
   })
