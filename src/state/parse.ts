@@ -12,7 +12,6 @@ const queryableKeys = {
   link: ['rel', 'sizes'],
 }
 
-// NOTE: Reference of existing metatags https://gist.github.com/kevinSuttle/1997924
 // TODO: Reconsider internal tag implementation in order to handle more edge cases (stylesheet, charset, etc)
 
 // Helpers that, given the tag name and the tag attributes,
