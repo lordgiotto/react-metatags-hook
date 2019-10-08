@@ -217,4 +217,155 @@ describe('Meta Tags Hook', () => {
       unmount()
     })
   })
+  describe('when used multiple times, with 50ms debounce', () => {
+    it('should merge the meta configs (prioritizing the last rendered components) and apply the changes once', async () => {
+      const { unmount: unmountFirst } = renderHook(() =>
+        useMetaTags({
+          title: 'A title',
+          description: 'A description',
+          metas: [
+            { 'http-equiv': 'Cache-Control', content: 'no-cache' },
+            { name: 'robots', content: 'index, follow' },
+          ],
+          links: [
+            { rel: 'icon', type: 'image/ico', href: '/favicon.ico' },
+            {
+              rel: 'apple-touch-icon',
+              sizes: '72x72',
+              type: 'image/png',
+              href: '/apple-72.png',
+            },
+          ],
+          openGraph: {
+            title: 'og title',
+          },
+        })
+      )
+      await wait(0)
+      const { unmount: unmountSecond } = renderHook(() =>
+        useMetaTags({
+          title: 'Another title',
+          metas: [{ name: 'robots', content: 'index, nofollow' }],
+          links: [
+            { rel: 'icon', type: 'image/ico', href: '/favicon2.ico' },
+            {
+              rel: 'apple-touch-icon',
+              sizes: '32x32',
+              type: 'image/png',
+              href: '/apple-32.png',
+            },
+          ],
+          openGraph: {
+            description: 'og description',
+          },
+        })
+      )
+      expect(document.title).toBe('')
+      expect(
+        queryHeadSelectorAttribute('meta[name="description"]', 'content')
+      ).toBeUndefined()
+      expect(
+        queryHeadSelectorAttribute(
+          'meta[http-equiv="Cache-Control"]',
+          'content'
+        )
+      ).toBeUndefined()
+      expect(
+        queryHeadSelectorAttribute('meta[name="robots"]', 'content')
+      ).toBeUndefined()
+      expect(
+        queryHeadSelectorAttribute('link[rel="icon"]', 'href')
+      ).toBeUndefined()
+      expect(
+        queryHeadSelectorAttribute(
+          'link[rel="apple-touch-icon"][sizes="72x72"]',
+          'href'
+        )
+      ).toBeUndefined()
+      expect(
+        queryHeadSelectorAttribute('meta[property="og:title"]', 'content')
+      ).toBeUndefined()
+      await wait(50)
+      expect(document.title).toBe('Another title')
+      expect(
+        queryHeadSelectorAttribute('meta[name="description"]', 'content')
+      ).toBe('A description')
+      expect(
+        queryHeadSelectorAttribute(
+          'meta[http-equiv="Cache-Control"]',
+          'content'
+        )
+      ).toBe('no-cache')
+      expect(queryHeadSelectorAttribute('meta[name="robots"]', 'content')).toBe(
+        'index, nofollow'
+      )
+      expect(queryHeadSelectorAttribute('link[rel="icon"]', 'href')).toBe(
+        '/favicon2.ico'
+      )
+      expect(
+        queryHeadSelectorAttribute(
+          'link[rel="apple-touch-icon"][sizes="72x72"]',
+          'href'
+        )
+      ).toBe('/apple-72.png')
+      expect(
+        queryHeadSelectorAttribute(
+          'link[rel="apple-touch-icon"][sizes="32x32"]',
+          'href'
+        )
+      ).toBe('/apple-32.png')
+      expect(
+        queryHeadSelectorAttribute('meta[property="og:title"]', 'content')
+      ).toBe('og title')
+      expect(
+        queryHeadSelectorAttribute(
+          'meta[property="og:description"]',
+          'content'
+        )
+      ).toBe('og description')
+      unmountFirst()
+      unmountSecond()
+    })
+    it('should "unmerge" a config when the component that defines it is unmounted', async () => {
+      const { unmount: unmountFirst } = renderHook(() =>
+        useMetaTags({
+          title: 'A title',
+          description: 'A description',
+          metas: [{ name: 'robots', content: 'index, follow' }],
+        })
+      )
+      await wait(0)
+      const { unmount: unmountSecond } = renderHook(() =>
+        useMetaTags({
+          title: 'Another title',
+          metas: [{ name: 'keywords', content: 'a, list, of, keywords' }],
+        })
+      )
+      await wait(50)
+      expect(document.title).toBe('Another title')
+      expect(
+        queryHeadSelectorAttribute('meta[name="description"]', 'content')
+      ).toBe('A description')
+      expect(queryHeadSelectorAttribute('meta[name="robots"]', 'content')).toBe(
+        'index, follow'
+      )
+      expect(
+        queryHeadSelectorAttribute('meta[name="keywords"]', 'content')
+      ).toBe('a, list, of, keywords')
+      await wait(0)
+      unmountSecond()
+      await wait(50)
+      expect(document.title).toBe('A title')
+      expect(
+        queryHeadSelectorAttribute('meta[name="description"]', 'content')
+      ).toBe('A description')
+      expect(queryHeadSelectorAttribute('meta[name="robots"]', 'content')).toBe(
+        'index, follow'
+      )
+      expect(
+        queryHeadSelectorAttribute('meta[name="keywords"]', 'content')
+      ).toBeUndefined()
+      unmountFirst()
+    })
+  })
 })
