@@ -1,3 +1,7 @@
+![npm](https://img.shields.io/npm/v/react-metatags-hook)
+![npm peer dependency version](https://img.shields.io/npm/dependency-version/react-metatags-hook/peer/react)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-metatags-hook)
+
 # React MetaTags Hook
 React hook to manage HTML meta tags.
 
