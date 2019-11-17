@@ -10,7 +10,7 @@ const getHeadElement = (tagName: string, query: TagQueryKeys[]) => {
 }
 const createHeadElement = (tagName: string) => {
   const newTag = document.createElement(tagName)
-  document.head.append(newTag)
+  document.head.appendChild(newTag)
   return newTag
 }
 
