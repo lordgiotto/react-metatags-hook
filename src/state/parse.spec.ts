@@ -19,6 +19,8 @@ const metaTagsConfig = {
       type: 'image/png',
       href: '/apple-72.png',
     },
+    { rel: 'alternate', href: 'https://www.site.com', id: 'alt1' },
+    { rel: 'alternate', href: 'https://www.site2.com', id: 'alt2' },
   ],
   openGraph: {
     title: 'Page Title',
@@ -39,7 +41,7 @@ describe('State > Parse', () => {
       expect(metaTagsModel.lang).toBe('en-gb')
     })
     it('should add the correct tags number to the tag list in the model', () => {
-      expect(Object.keys(metaTagsModel.tags)).toHaveLength(12)
+      expect(Object.keys(metaTagsModel.tags)).toHaveLength(14)
     })
     it('should add description to the tags list in the model', () => {
       const description = metaTagsModel.tags['meta_name=description']
@@ -157,6 +159,30 @@ describe('State > Parse', () => {
       expect(twitterCreator.attributes).toEqual({
         property: 'twitter:creator',
         content: '@you',
+      })
+    })
+    it('should always consider tags with different "id" as different tags', () => {
+      const altLink1 = metaTagsModel.tags['link_rel=alternate~id=alt1']
+      const altLink2 = metaTagsModel.tags['link_rel=alternate~id=alt2']
+      expect(altLink1.tag).toBe('link')
+      expect(altLink1.query).toEqual([
+        { key: 'rel', value: 'alternate' },
+        { key: 'id', value: 'alt1' },
+      ])
+      expect(altLink1.attributes).toEqual({
+        rel: 'alternate',
+        href: 'https://www.site.com',
+        id: 'alt1',
+      })
+      expect(altLink2.tag).toBe('link')
+      expect(altLink2.query).toEqual([
+        { key: 'rel', value: 'alternate' },
+        { key: 'id', value: 'alt2' },
+      ])
+      expect(altLink2.attributes).toEqual({
+        rel: 'alternate',
+        href: 'https://www.site2.com',
+        id: 'alt2',
       })
     })
   })

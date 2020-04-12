@@ -21,6 +21,7 @@ const createInternalTag = (tagName: 'meta' | 'link') => (
 ) => {
   const tagQueryableKeys = queryableKeys[tagName]
   const queryKeys = tagQueryableKeys
+    .concat('id')
     .map(queryKey =>
       tagAttributes.hasOwnProperty(queryKey)
         ? { key: queryKey, value: tagAttributes[queryKey] }
