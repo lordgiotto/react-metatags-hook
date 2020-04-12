@@ -137,6 +137,36 @@ A convenient method to set `<meta property="og:*" />` meta tags. Accepts an obje
 ##### `twitter`
 A convenient method to set `<meta property="twitter:*" />` meta tags. Accepts an object where the key is appended in the `property` attribute after the `twitter:` prefix, and the value is the `content` attribute of the meta.
 
+## What happens when used in multiple component or one component is unmounted
+### Nested and Sibling components
+When used in nested components, metas defined in the children are merged with the ones defined in the parents. If the same meta are defined in both the parent and the children, children ones take precedence and overwrite parents ones. (see **Tags creation and update** for more details)
+
+The same logic applies if used in sibling components: the last to render is the one that take precedence if same meta are defined.
+
+### Component unmount
+When a component that uses this hook is unmounted, its metas definition are removed from a global list of metas and the metas definition is recalculated based on the definitions in other components. If some meta is not longer present in this resulting definition, the meta tag is removed from the DOM.
+
+### Tags creation and update
+As just described, this library allows to overwrite tags in nested components, and updates existing tags if possible rather the creating new one.
+To do so, it has to identify when two tag definitions refers to the same tag (i.e. you want to change the `<link rel='icon'/>` when a component is mounted).
+
+To identify when tags are unique, the following attributes are considered, and every time at least one of them is different, a new tag in the head is created.
+
+**Any Tag**
+- `id`
+
+**`<meta />`**
+- `name`
+- `property`
+- `http-equiv`
+- `charset`
+
+**`<link />`**
+- `rel`
+- `sizes`
+
+If this logic is unsatisfactory, please let me know and I'll be happy to improve it.
+
 ## Server Side Rendering
 This library exports the function `generateStaticHtml` that can be used to generate an HTML string of the meta tags created by this hook. Use it after `ReactDOMServer.renderToString` or `ReactDOMServer.renderToStaticMarkup`.
 ```javascript
@@ -145,27 +175,3 @@ import { generateStaticHtml } from 'react-metatags-hook'
 ReactDOMServer.renderToString(<App />);
 const metaHTML = generateStaticHtml()
 ```
-
-## What happens when used in multiple component or one component is unmounted
-### Nested and Sibling components
-When used in nested components, the meta defined in the children are merged with the ones defined in the parents. If the same meta are defined in both the parent and the children, the children ones take precedence and overwrite parents ones.
-
-The same logic applies if used in sibling components: the last to render is the one that take precedence if same meta are defined.
-
-### Component unmount
-When a component that uses this hook is unmounted, its meta definition are removed from a global list of meta and the meta definition is recalculated based on the definitions in other components. If some meta is not longer present in this resulting definition, the meta tag is removed from the DOM.
-
-### How `<meta />` and `<link />` are identified
-To identify which `<meta />` and `<link />` are unique (used to merge meta definition as just described, as well as to delete or update the DOM), the following logic is applied.
-
-**meta**
-- have the same `name` attribute
-- have the same `property` attribute
-- have the same `http-equiv` attribute
-- have the same `charset` attribute
-
-**link**:
-- have the same `rel` attribute
-- have the same `rel` and `sizes` attribute
-
-If this logic is unsatisfactory, please let me know and I'll be happy to improve it.
