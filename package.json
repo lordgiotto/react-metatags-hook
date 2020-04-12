@@ -31,12 +31,16 @@
     "test": "jest",
     "test:ui": "majestic"
   },
+  "pre-commit": [
+    "check:all"
+  ],
   "devDependencies": {
     "@types/jest": "^25.2.1",
     "@types/react": "^16.9.34",
     "concurrently": "^5.1.0",
     "jest": "^25.3.0",
     "majestic": "^1.6.2",
+    "pre-commit": "^1.2.2",
     "react": "^16.13.1",
     "react-hooks-testing-library": "^0.6.0",
     "react-test-renderer": "^16.13.1",
