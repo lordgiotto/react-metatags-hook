@@ -1,3 +1,8 @@
+## [1.2.0] - 2020-04-12
+### Changed
+* `id` is used to identify unique tags.
+* Upgraded all dependencies.
+
 ## [1.1.1] - 2019-10-09
 ### Added
 * Added unit tests.
