@@ -1,4 +1,2 @@
-import useMetaTags, { generateStaticHtml } from './use-meta-tags'
-
-export default useMetaTags
-export { generateStaticHtml }
+export { default } from './use-meta-tags'
+export { generateStaticHtml, resetMetaTags } from './generate-static-html'

@@ -5,19 +5,11 @@ import {
   subscribeToStore,
   addMetasToStore,
   removeMetasFromStore,
-  getState,
 } from './state'
 import { updateDom } from './render/dom'
-import { generateMetasMarkup } from './render/static'
 
 // Subscribes to store changes and update DOM
 subscribeToStore(metas => updateDom(metas, 50))
-
-// Function to generate metas static HTML
-const generateStaticHtml = () => {
-  const metas = getState()
-  return generateMetasMarkup(metas)
-}
 
 // NOTE: Decided to use useRef and useMemo rather than useEffect to save the meta configs,
 // since useEffect functions are exectured starting from the inner children up to the root
@@ -40,4 +32,3 @@ const useMetaTags = (config: MetaTagsConfig, dependsOn?: any[]) => {
 }
 
 export default useMetaTags
-export { generateStaticHtml }
