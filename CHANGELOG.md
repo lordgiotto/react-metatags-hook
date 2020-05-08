@@ -1,3 +1,10 @@
+## [1.3.0] - 2020-04-12
+### Added
+* Added resetMetaTags function to clear tags definitions stored in the library.
+### Changed
+* Fixed how meta tags definitions are merged (only defined values overwrites previously set values).
+* Upgraded all dependencies.
+
 ## [1.2.0] - 2020-04-12
 ### Changed
 * `id` is used to identify unique tags.
