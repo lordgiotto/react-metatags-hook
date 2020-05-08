@@ -13,8 +13,8 @@ const mergeInstanceConfigs = (configs: Set<InstanceConfig>): MetaTagModel =>
     .map(({ current }) => current)
     .reduce(
       (acc, instanceConfig) => ({
-        ...acc,
-        ...instanceConfig,
+        title: instanceConfig.title ?? acc.title,
+        lang: instanceConfig.lang ?? acc.lang,
         tags: {
           ...acc.tags,
           ...instanceConfig.tags,
