@@ -78,14 +78,14 @@ describe('State > Store', () => {
     let unsubscribe: () => void
     let metas: MetaTagModel
     beforeEach(() => {
-      unsubscribe = subscribeToStore(metasModel => (metas = metasModel))
+      unsubscribe = subscribeToStore((metasModel) => (metas = metasModel))
     })
     afterEach(() => {
       clearStore()
       unsubscribe()
     })
     describe('addMetasToStore()', () => {
-      it('should add a model to the store and provide the resulting model to subscribers and via getState()', done => {
+      it('should add a model to the store and provide the resulting model to subscribers and via getState()', (done) => {
         const expected = instanceConfigA.current
         addMetasToStore(instanceConfigA)
         process.nextTick(() => {
@@ -94,7 +94,7 @@ describe('State > Store', () => {
           done()
         })
       })
-      it('should merge models (last take precedence) if more the one them is added to the store', done => {
+      it('should merge models (last take precedence) if more the one them is added to the store', (done) => {
         const expected = {
           title: 'title3',
           lang: 'it',
@@ -136,7 +136,7 @@ describe('State > Store', () => {
       })
     })
     describe('removeMetasFromStore()', () => {
-      it('should remove a model from the store and provide the resulting model to subscribers and via getState()', done => {
+      it('should remove a model from the store and provide the resulting model to subscribers and via getState()', (done) => {
         const expected = { tags: {} }
         addMetasToStore(instanceConfigA)
         removeMetasFromStore(instanceConfigA)
@@ -146,7 +146,7 @@ describe('State > Store', () => {
           done()
         })
       })
-      it('should merge all the not removed models (last take precedence)', done => {
+      it('should merge all the not removed models (last take precedence)', (done) => {
         const expected = {
           title: 'title3',
           lang: 'en',
@@ -180,7 +180,7 @@ describe('State > Store', () => {
       })
     })
     describe('clearStore()', () => {
-      it('should clear all the saved models in the store and provide an empty model to subscribers and via getState()', done => {
+      it('should clear all the saved models in the store and provide an empty model to subscribers and via getState()', (done) => {
         const expected = { tags: {} }
         addMetasToStore(instanceConfigA)
         addMetasToStore(instanceConfigB)

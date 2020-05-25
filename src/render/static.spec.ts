@@ -40,6 +40,18 @@ const model: MetaTagModel = {
         { key: 'sizes', value: '152x152' },
       ],
     },
+    'link~rel=prefetch~as=image': {
+      tag: 'link',
+      attributes: {
+        rel: 'preload',
+        href: 'bg-image-narrow.png',
+        as: 'image',
+      },
+      query: [
+        { key: 'rel', value: 'preload' },
+        { key: 'as', value: 'image' },
+      ],
+    },
   },
 }
 
@@ -49,6 +61,7 @@ const result = `
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta http-equiv="refresh" content="30" />
 <link rel="apple-touch-icon" sizes="152x152" href="./icon152.png" />
+<link rel="preload" href="bg-image-narrow.png" as="image" />
 `.replace(/\n/g, '')
 
 describe('Render > Static', () => {

@@ -9,6 +9,7 @@ export interface MetaTag {
 export interface LinkTag {
   rel?: string
   href?: string
+  as?: string
   size?: string
   type?: string
   media?: string
