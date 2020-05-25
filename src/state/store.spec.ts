@@ -65,8 +65,8 @@ const instanceConfigC = {
 describe('State > Store', () => {
   describe('subscribeToStore()', () => {
     it('should return an unsubscribe function', () => {
-      const unsubsribe = subscribeToStore(() => {})
-      expect(typeof unsubsribe).toBe('function')
+      const unsubscribe = subscribeToStore(() => {})
+      expect(typeof unsubscribe).toBe('function')
     })
   })
   describe('getState()', () => {
