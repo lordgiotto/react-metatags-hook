@@ -1,5 +1,5 @@
-import { MetaTagModel } from '../types'
-import { getRemovedTags, getTagsList } from './helpers'
+import { MetaTagModel } from '../types';
+import { getRemovedTags, getTagsList } from './helpers';
 
 const modelA: MetaTagModel = {
   title: 'title',
@@ -33,7 +33,7 @@ const modelA: MetaTagModel = {
       ],
     },
   },
-}
+};
 
 const modelB: MetaTagModel = {
   title: 'title',
@@ -67,12 +67,12 @@ const modelB: MetaTagModel = {
       tag: 'meta',
       attributes: {
         'http-equiv': 'refresh',
-        content: '30',
+        'content': '30',
       },
       query: [{ key: 'http-equiv', value: 'refresh' }],
     },
   },
-}
+};
 
 describe('State > Helpers', () => {
   describe('getRemovedTags()', () => {
@@ -90,7 +90,7 @@ describe('State > Helpers', () => {
             { key: 'sizes', value: '152x152' },
           ],
         },
-      ])
+      ]);
       expect(getRemovedTags(modelA, modelB)).toEqual([
         {
           tag: 'link',
@@ -105,19 +105,19 @@ describe('State > Helpers', () => {
           tag: 'meta',
           attributes: {
             'http-equiv': 'refresh',
-            content: '30',
+            'content': '30',
           },
           query: [{ key: 'http-equiv', value: 'refresh' }],
         },
-      ])
-    })
+      ]);
+    });
     it("should return an empty array if the model doesn't change", () => {
-      const unchangedModelA = { ...modelA }
-      const unchangedModelB = { ...modelB }
-      expect(getRemovedTags(modelA, unchangedModelA)).toEqual([])
-      expect(getRemovedTags(modelB, unchangedModelB)).toEqual([])
-    })
-  })
+      const unchangedModelA = { ...modelA };
+      const unchangedModelB = { ...modelB };
+      expect(getRemovedTags(modelA, unchangedModelA)).toEqual([]);
+      expect(getRemovedTags(modelB, unchangedModelB)).toEqual([]);
+    });
+  });
   describe('getTagsList()', () => {
     it('should return a plain list of tags from a model', () => {
       expect(getTagsList(modelA)).toEqual([
@@ -148,7 +148,7 @@ describe('State > Helpers', () => {
             { key: 'sizes', value: '152x152' },
           ],
         },
-      ])
+      ]);
       expect(getTagsList(modelB)).toEqual([
         {
           tag: 'meta',
@@ -178,11 +178,11 @@ describe('State > Helpers', () => {
           tag: 'meta',
           attributes: {
             'http-equiv': 'refresh',
-            content: '30',
+            'content': '30',
           },
           query: [{ key: 'http-equiv', value: 'refresh' }],
         },
-      ])
-    })
-  })
-})
+      ]);
+    });
+  });
+});

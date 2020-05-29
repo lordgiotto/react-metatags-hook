@@ -1,5 +1,5 @@
-import { generateMetasMarkup } from './static'
-import { MetaTagModel } from '../types'
+import { generateMetasMarkup } from './static';
+import { MetaTagModel } from '../types';
 
 const model: MetaTagModel = {
   title: 'My Page title',
@@ -24,7 +24,7 @@ const model: MetaTagModel = {
       tag: 'meta',
       attributes: {
         'http-equiv': 'refresh',
-        content: '30',
+        'content': '30',
       },
       query: [{ key: 'http-equiv', value: 'refresh' }],
     },
@@ -41,7 +41,7 @@ const model: MetaTagModel = {
       ],
     },
   },
-}
+};
 
 const result = `
 <title>My Page title</title>
@@ -49,13 +49,13 @@ const result = `
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta http-equiv="refresh" content="30" />
 <link rel="apple-touch-icon" sizes="152x152" href="./icon152.png" />
-`.replace(/\n/g, '')
+`.replace(/\n/g, '');
 
 describe('Render > Static', () => {
   describe('generateMetasMarkup', () => {
     it('should generate meta tags static html based on a model, except for lang', () => {
-      const html = generateMetasMarkup(model)
-      expect(html).toBe(result)
-    })
-  })
-})
+      const html = generateMetasMarkup(model);
+      expect(html).toBe(result);
+    });
+  });
+});
