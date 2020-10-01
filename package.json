@@ -42,6 +42,8 @@
     "jest": "^26.0.1",
     "majestic": "^1.7.0",
     "pre-commit": "^1.2.2",
+    "prettier": "^2.0.5",
+    "prettier-tslint": "^0.4.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hooks-testing-library": "^0.6.0",

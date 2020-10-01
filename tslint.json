@@ -1,6 +1,7 @@
 {
   "extends": ["tslint-config-standard", "tslint-react", "tslint-react-hooks"],
   "rules": {
+    "semicolon": [true, "always", "ignore-interfaces"],
     "strict-type-predicates": false,
     "no-empty": [true, "allow-empty-functions"],
     "react-hooks-nesting": false,

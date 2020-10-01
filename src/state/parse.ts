@@ -5,12 +5,12 @@ import {
   MetaTagsConfig,
   MetaTagModel,
   InternalTag,
-} from '../types'
+} from '../types';
 
 const queryableKeys = {
   meta: ['charset', 'name', 'property', 'http-equiv'],
   link: ['rel', 'sizes'],
-}
+};
 
 // TODO: Reconsider internal tag implementation in order to handle more edge cases (stylesheet, charset, etc)
 
@@ -19,27 +19,27 @@ const queryableKeys = {
 const createInternalTag = (tagName: 'meta' | 'link') => (
   tagAttributes: MetaTag | LinkTag
 ) => {
-  const tagQueryableKeys = queryableKeys[tagName]
+  const tagQueryableKeys = queryableKeys[tagName];
   const queryKeys = tagQueryableKeys
     .concat('id')
-    .map(queryKey =>
+    .map((queryKey) =>
       tagAttributes.hasOwnProperty(queryKey)
         ? { key: queryKey, value: tagAttributes[queryKey] }
         : undefined
     )
-    .filter(Boolean) as TagQueryKeys[]
-  const fallbackQueryKeys = Object.keys(tagAttributes).map(key => ({
+    .filter(Boolean) as TagQueryKeys[];
+  const fallbackQueryKeys = Object.keys(tagAttributes).map((key) => ({
     key,
     value: tagAttributes[key],
-  })) as TagQueryKeys[]
+  })) as TagQueryKeys[];
   return {
     tag: tagName,
     query: queryKeys.length ? queryKeys : fallbackQueryKeys,
     attributes: tagAttributes,
-  }
-}
-const createInternalMeta = createInternalTag('meta')
-const createInternalLink = createInternalTag('link')
+  };
+};
+const createInternalMeta = createInternalTag('meta');
+const createInternalLink = createInternalTag('link');
 
 // Transforms the hook's input config into the internal metas model
 const parseMetaConfig = ({
@@ -52,20 +52,20 @@ const parseMetaConfig = ({
   openGraph = {},
   twitter = {},
 }: MetaTagsConfig): MetaTagModel => {
-  const parsedMetaTags = metas.map(createInternalMeta)
-  const parsedLinks = links.map(createInternalLink)
-  const parsedOpenGraph = Object.keys(openGraph).map(key =>
+  const parsedMetaTags = metas.map(createInternalMeta);
+  const parsedLinks = links.map(createInternalLink);
+  const parsedOpenGraph = Object.keys(openGraph).map((key) =>
     createInternalMeta({
       property: `og:${key}`,
       content: openGraph[key],
     })
-  )
-  const parsedTwitter = Object.keys(twitter).map(key =>
+  );
+  const parsedTwitter = Object.keys(twitter).map((key) =>
     createInternalMeta({
       property: `twitter:${key}`,
       content: twitter[key],
     })
-  )
+  );
   const fullTagsList = [
     !!description && {
       tag: 'meta',
@@ -87,23 +87,23 @@ const parseMetaConfig = ({
     ...parsedOpenGraph,
     ...parsedTwitter,
   ].filter(
-    tag => tag && tag.query && Object.keys(tag.query).length
-  ) as InternalTag[]
+    (tag) => tag && tag.query && Object.keys(tag.query).length
+  ) as InternalTag[];
   const tags = fullTagsList.reduce((acc, internalTag) => {
     const tagQueryId = internalTag.query
       .map(({ key = '', value = '' }) => `${key}=${value}`)
-      .join('~')
-    const tagId = `${internalTag.tag}_${tagQueryId}`
+      .join('~');
+    const tagId = `${internalTag.tag}_${tagQueryId}`;
     return {
       ...acc,
       [tagId]: internalTag,
-    }
-  }, {})
+    };
+  }, {});
   return {
     title,
     lang,
     tags,
-  }
-}
+  };
+};
 
-export default parseMetaConfig
+export default parseMetaConfig;
