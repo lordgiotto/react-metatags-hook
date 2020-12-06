@@ -1,0 +1,103 @@
+---
+root: true
+parserOptions:
+  ecmaFeatures:
+    ecmaVersion: 2020
+    jsx: true
+settings:
+  react:
+    version: detect
+extends:
+  - standard
+  - standard-with-typescript
+  - plugin:react/recommended
+  - plugin:react-hooks/recommended
+rules:
+  comma-dangle:
+    - error
+    - arrays: always-multiline
+      objects: always-multiline
+      imports: always-multiline
+      exports: always-multiline
+      functions: never
+  indent: 'off'
+  multiline-ternary: 'off'
+  no-prototype-builtins: 'off'
+  no-useless-escape: 'off'
+  no-template-curly-in-string: 'off'
+  prefer-promise-reject-errors:
+    - error
+    - allowEmptyReject: true
+  quote-props:
+    - error
+    - consistent-as-needed
+  semi:
+    - error
+    - always
+  space-before-function-paren:
+    - error
+    - anonymous: never
+      named: never
+      asyncArrow: always
+  react/display-name: 'off'
+  react-hooks/exhaustive-deps: 'off'
+  react/no-unescaped-entities: 'off'
+overrides:
+  - files:
+      - '*.ts'
+      - '*.tsx'
+    parser: '@typescript-eslint/parser'
+    parserOptions:
+      project: './tsconfig.json'
+    plugins:
+      - '@typescript-eslint'
+    rules:
+      '@typescript-eslint/comma-dangle':
+        - error
+        - arrays: always-multiline
+          objects: always-multiline
+          imports: always-multiline
+          exports: always-multiline
+          functions: never
+          enums: always-multiline
+          generics: never
+          tuples: always-multiline
+      '@typescript-eslint/consistent-type-assertions':
+        - error
+        - assertionStyle: as
+          objectLiteralTypeAssertions: allow
+      '@typescript-eslint/consistent-type-definitions': 'off'
+      '@typescript-eslint/explicit-function-return-type': 'off'
+      '@typescript-eslint/indent': 'off'
+      '@typescript-eslint/member-delimiter-style':
+        - error
+        - multiline:
+            delimiter: semi
+          singleline:
+            delimiter: semi
+            requireLast: false
+      '@typescript-eslint/method-signature-style': 'off'
+      '@typescript-eslint/no-empty-interface': 'off'
+      '@typescript-eslint/no-floating-promises': 'off'
+      '@typescript-eslint/no-invalid-void-type': 'off'
+      '@typescript-eslint/no-non-null-assertion': 'off'
+      '@typescript-eslint/no-unused-vars': 'off'
+      '@typescript-eslint/prefer-includes': 'off'
+      '@typescript-eslint/prefer-nullish-coalescing': 'off'
+      '@typescript-eslint/prefer-optional-chain': 'off'
+      '@typescript-eslint/prefer-readonly': 'off'
+      '@typescript-eslint/prefer-reduce-type-parameter': 'off'
+      '@typescript-eslint/promise-function-async': 'off'
+      '@typescript-eslint/require-array-sort-compare':
+        - error
+        - ignoreStringArrays: true
+      '@typescript-eslint/return-await': 'off'
+      '@typescript-eslint/semi':
+        - error
+        - always
+      '@typescript-eslint/space-before-function-paren':
+        - error
+        - anonymous: never
+          named: never
+          asyncArrow: always
+      '@typescript-eslint/strict-boolean-expressions': 'off'
