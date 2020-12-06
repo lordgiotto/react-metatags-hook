@@ -7,7 +7,7 @@ export const generateMetasMarkup = (metas: MetaTagModel) => {
   const tagsList = getTagsList(metas);
   const tags = tagsList.map(({ attributes, tag }) => {
     const attributeParts = Object.keys(attributes).map((key) => {
-      const value = attributes[key] ? `="${attributes[key]}"` : '';
+      const value = attributes[key] ? `="${attributes[key] || ''}"` : '';
       return `${key}${value}`;
     });
     return `<${tag} ${attributeParts.join(' ')} />`;
