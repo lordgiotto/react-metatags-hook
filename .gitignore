@@ -1,5 +1,4 @@
 ### Project ###
-/dist/
 /coverage/
 .env
 .cache
