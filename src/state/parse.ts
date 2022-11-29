@@ -9,7 +9,7 @@ import {
 
 const queryableKeys = {
   meta: ['charset', 'name', 'property', 'http-equiv'],
-  link: ['rel', 'sizes'],
+  link: ['rel', 'sizes', 'hreflang'],
 };
 
 // TODO: Reconsider internal tag implementation in order to handle more edge cases (stylesheet, charset, etc)

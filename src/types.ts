@@ -12,6 +12,7 @@ export interface LinkTag {
   size?: string;
   type?: string;
   media?: string;
+  hreflang?: string;
   [attributeKey: string]: string | undefined;
 }
 export interface MetaTagsConfig {
