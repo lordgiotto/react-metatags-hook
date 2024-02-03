@@ -33,7 +33,7 @@ const removeHeadElement = ({ tag, query }: InternalTag) => {
 };
 
 // Public
-let domChangeTimeout: number;
+let domChangeTimeout: NodeJS.Timeout;
 let lastMetas: MetaTagModel = { tags: {} };
 
 export const updateDom = (metas: MetaTagModel, debounceTime?: number) => {

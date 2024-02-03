@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { wait } from './helpers/patience';
 import useMetaTags from './use-meta-tags';
 
@@ -18,9 +18,12 @@ describe('Meta Tags Hook', () => {
   describe('when used inside a component, with 50ms debounce time', () => {
     it('should set the document title', async () => {
       const { unmount } = renderHook(() =>
-        useMetaTags({
-          title: 'A title',
-        })
+        useMetaTags(
+          {
+            title: 'A title',
+          },
+          []
+        )
       );
       expect(document.title).toBe('');
       await wait(50);
@@ -29,9 +32,12 @@ describe('Meta Tags Hook', () => {
     });
     it('should set the document language', async () => {
       const { unmount } = renderHook(() =>
-        useMetaTags({
-          lang: 'en-gb',
-        })
+        useMetaTags(
+          {
+            lang: 'en-gb',
+          },
+          []
+        )
       );
       expect(document.documentElement.lang).toBe('');
       await wait(50);
@@ -40,9 +46,12 @@ describe('Meta Tags Hook', () => {
     });
     it('should add the description tag', async () => {
       const { unmount } = renderHook(() =>
-        useMetaTags({
-          description: 'A description',
-        })
+        useMetaTags(
+          {
+            description: 'A description',
+          },
+          []
+        )
       );
       expect(
         queryHeadSelectorAttribute('meta[name="description"]', 'content')
@@ -55,9 +64,12 @@ describe('Meta Tags Hook', () => {
     });
     it('should add the charset tag', async () => {
       const { unmount } = renderHook(() =>
-        useMetaTags({
-          charset: 'utf-8',
-        })
+        useMetaTags(
+          {
+            charset: 'utf-8',
+          },
+          []
+        )
       );
       expect(
         queryHeadSelectorAttribute('meta[charset]', 'charset')
@@ -70,14 +82,17 @@ describe('Meta Tags Hook', () => {
     });
     it('should add meta tags', async () => {
       const { unmount } = renderHook(() =>
-        useMetaTags({
-          metas: [
-            { name: 'robots', content: 'index, follow' },
-            { property: 'fb:app_id', content: '1234567890' },
-            { 'http-equiv': 'Cache-Control', 'content': 'no-cache' },
-            { any: 'value', foo: 'baz' },
-          ],
-        })
+        useMetaTags(
+          {
+            metas: [
+              { name: 'robots', content: 'index, follow' },
+              { property: 'fb:app_id', content: '1234567890' },
+              { 'http-equiv': 'Cache-Control', 'content': 'no-cache' },
+              { any: 'value', foo: 'baz' },
+            ],
+          },
+          []
+        )
       );
       expect(
         queryHeadSelectorAttribute('meta[name="robots"]', 'content')
@@ -114,18 +129,21 @@ describe('Meta Tags Hook', () => {
     });
     it('should add link tags', async () => {
       const { unmount } = renderHook(() =>
-        useMetaTags({
-          links: [
-            { rel: 'icon', type: 'image/ico', href: '/favicon.ico' },
-            {
-              rel: 'apple-touch-icon',
-              sizes: '72x72',
-              type: 'image/png',
-              href: '/apple-72.png',
-            },
-            { rel: 'stylesheet', href: '/style.css' },
-          ],
-        })
+        useMetaTags(
+          {
+            links: [
+              { rel: 'icon', type: 'image/ico', href: '/favicon.ico' },
+              {
+                rel: 'apple-touch-icon',
+                sizes: '72x72',
+                type: 'image/png',
+                href: '/apple-72.png',
+              },
+              { rel: 'stylesheet', href: '/style.css' },
+            ],
+          },
+          []
+        )
       );
       expect(
         queryHeadSelectorAttribute('link[rel="icon"]', 'href')
@@ -150,13 +168,16 @@ describe('Meta Tags Hook', () => {
     });
     it('should add open graph tags', async () => {
       const { unmount } = renderHook(() =>
-        useMetaTags({
-          openGraph: {
-            title: 'Page Title',
-            site_name: 'My Site',
-            any: 'value',
+        useMetaTags(
+          {
+            openGraph: {
+              title: 'Page Title',
+              site_name: 'My Site',
+              any: 'value',
+            },
           },
-        })
+          []
+        )
       );
       expect(
         queryHeadSelectorAttribute('meta[property="og:title"]', 'content')
@@ -181,13 +202,16 @@ describe('Meta Tags Hook', () => {
     });
     it('should add twitter tags', async () => {
       const { unmount } = renderHook(() =>
-        useMetaTags({
-          twitter: {
-            card: 'summary',
-            creator: '@you',
-            any: 'value',
+        useMetaTags(
+          {
+            twitter: {
+              card: 'summary',
+              creator: '@you',
+              any: 'value',
+            },
           },
-        })
+          []
+        )
       );
       expect(
         queryHeadSelectorAttribute('meta[property="twitter:card"]', 'content')
@@ -220,45 +244,51 @@ describe('Meta Tags Hook', () => {
   describe('when used multiple times, with 50ms debounce', () => {
     it('should merge the meta configs (prioritizing the last rendered components) and apply the changes once', async () => {
       const { unmount: unmountFirst } = renderHook(() =>
-        useMetaTags({
-          title: 'A title',
-          description: 'A description',
-          metas: [
-            { 'http-equiv': 'Cache-Control', 'content': 'no-cache' },
-            { name: 'robots', content: 'index, follow' },
-          ],
-          links: [
-            { rel: 'icon', type: 'image/ico', href: '/favicon.ico' },
-            {
-              rel: 'apple-touch-icon',
-              sizes: '72x72',
-              type: 'image/png',
-              href: '/apple-72.png',
+        useMetaTags(
+          {
+            title: 'A title',
+            description: 'A description',
+            metas: [
+              { 'http-equiv': 'Cache-Control', 'content': 'no-cache' },
+              { name: 'robots', content: 'index, follow' },
+            ],
+            links: [
+              { rel: 'icon', type: 'image/ico', href: '/favicon.ico' },
+              {
+                rel: 'apple-touch-icon',
+                sizes: '72x72',
+                type: 'image/png',
+                href: '/apple-72.png',
+              },
+            ],
+            openGraph: {
+              title: 'og title',
             },
-          ],
-          openGraph: {
-            title: 'og title',
           },
-        })
+          []
+        )
       );
       await wait(0);
       const { unmount: unmountSecond } = renderHook(() =>
-        useMetaTags({
-          title: 'Another title',
-          metas: [{ name: 'robots', content: 'index, nofollow' }],
-          links: [
-            { rel: 'icon', type: 'image/ico', href: '/favicon2.ico' },
-            {
-              rel: 'apple-touch-icon',
-              sizes: '32x32',
-              type: 'image/png',
-              href: '/apple-32.png',
+        useMetaTags(
+          {
+            title: 'Another title',
+            metas: [{ name: 'robots', content: 'index, nofollow' }],
+            links: [
+              { rel: 'icon', type: 'image/ico', href: '/favicon2.ico' },
+              {
+                rel: 'apple-touch-icon',
+                sizes: '32x32',
+                type: 'image/png',
+                href: '/apple-32.png',
+              },
+            ],
+            openGraph: {
+              description: 'og description',
             },
-          ],
-          openGraph: {
-            description: 'og description',
           },
-        })
+          []
+        )
       );
       expect(document.title).toBe('');
       expect(
@@ -325,18 +355,24 @@ describe('Meta Tags Hook', () => {
     });
     it('should "unmerge" a config when the component that defines it is unmounted', async () => {
       const { unmount: unmountFirst } = renderHook(() =>
-        useMetaTags({
-          title: 'A title',
-          description: 'A description',
-          metas: [{ name: 'robots', content: 'index, follow' }],
-        })
+        useMetaTags(
+          {
+            title: 'A title',
+            description: 'A description',
+            metas: [{ name: 'robots', content: 'index, follow' }],
+          },
+          []
+        )
       );
       await wait(0);
       const { unmount: unmountSecond } = renderHook(() =>
-        useMetaTags({
-          title: 'Another title',
-          metas: [{ name: 'keywords', content: 'a, list, of, keywords' }],
-        })
+        useMetaTags(
+          {
+            title: 'Another title',
+            metas: [{ name: 'keywords', content: 'a, list, of, keywords' }],
+          },
+          []
+        )
       );
       await wait(50);
       expect(document.title).toBe('Another title');

@@ -1,20 +1,19 @@
 {
   "compilerOptions": {
+    "rootDir": "src",
     "target": "es5",
-    "moduleResolution": "node",
-    "module": "es2015",
+    "moduleResolution": "Node",
     "declaration": true,
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "skipLibCheck": true,
+    "sourceMap": false,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "react",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "sourceMap": true,
-    "lib": ["dom", "esnext"]
+    // TypeChecking
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   },
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }

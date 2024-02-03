@@ -14,7 +14,7 @@ subscribeToStore((metas) => updateDom(metas, 50));
 // NOTE: Decided to use useRef and useMemo rather than useEffect to save the meta configs,
 // since useEffect functions are exectured starting from the inner children up to the root
 // and I want the inner children's metas to override the parent's ones
-const useMetaTags = (config: MetaTagsConfig, dependsOn?: any[]) => {
+const useMetaTags = (config: MetaTagsConfig, dependsOn: unknown[]) => {
   const instanceConfig = useRef<MetaTagModel>();
   const metas = useMemo(() => parseMetaConfig(config), dependsOn);
   useEffect(() => {
