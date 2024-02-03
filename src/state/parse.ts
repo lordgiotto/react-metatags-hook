@@ -16,28 +16,27 @@ const queryableKeys = {
 
 // Helpers that, given the tag name and the tag attributes,
 // creates the interal tag rappresentation
-const createInternalTag = (tagName: 'meta' | 'link') => (
-  tagAttributes: MetaTag | LinkTag
-) => {
-  const tagQueryableKeys = queryableKeys[tagName];
-  const queryKeys = tagQueryableKeys
-    .concat('id')
-    .map((queryKey) =>
-      tagAttributes.hasOwnProperty(queryKey)
-        ? { key: queryKey, value: tagAttributes[queryKey] }
-        : undefined
-    )
-    .filter(Boolean) as TagQueryKeys[];
-  const fallbackQueryKeys = Object.keys(tagAttributes).map((key) => ({
-    key,
-    value: tagAttributes[key],
-  })) as TagQueryKeys[];
-  return {
-    tag: tagName,
-    query: queryKeys.length ? queryKeys : fallbackQueryKeys,
-    attributes: tagAttributes,
+const createInternalTag =
+  (tagName: 'meta' | 'link') => (tagAttributes: MetaTag | LinkTag) => {
+    const tagQueryableKeys = queryableKeys[tagName];
+    const queryKeys = tagQueryableKeys
+      .concat('id')
+      .map((queryKey) =>
+        tagAttributes.hasOwnProperty(queryKey)
+          ? { key: queryKey, value: tagAttributes[queryKey] }
+          : undefined
+      )
+      .filter(Boolean) as TagQueryKeys[];
+    const fallbackQueryKeys = Object.keys(tagAttributes).map((key) => ({
+      key,
+      value: tagAttributes[key],
+    })) as TagQueryKeys[];
+    return {
+      tag: tagName,
+      query: queryKeys.length ? queryKeys : fallbackQueryKeys,
+      attributes: tagAttributes,
+    };
   };
-};
 const createInternalMeta = createInternalTag('meta');
 const createInternalLink = createInternalTag('link');
 

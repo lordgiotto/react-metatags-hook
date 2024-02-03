@@ -24,10 +24,12 @@
   "scripts": {
     "watch": "rollup -c -w",
     "build": "rollup -c --environment BUILD:production",
-    "check:all": "concurrently --kill-others-on-fail yarn:check:ts yarn:check:lint",
+    "check:all": "concurrently --kill-others-on-fail yarn:check:ts yarn:check:lint yarn:check:prettier",
     "check:ts": "tsc --noEmit",
     "check:lint": "eslint ./src",
-    "check:lint:fix": "eslint ./src --fix",
+    "check:prettier": "prettier -u --check .",
+    "fix:lint": "eslint ./src --fix",
+    "fix:prettier": "prettier -u --write .",
     "prepublishOnly": "yarn check:all && yarn build",
     "test": "jest",
     "test:ui": "majestic"
