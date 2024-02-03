@@ -1,0 +1,27 @@
+name: Check & Test
+
+on:
+  push:
+    branches:
+      - 'main'
+    tags-ignore:
+      - '**'
+  pull_request:
+    branches:
+      - 'main'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+      - run: yarn install --frozen-lockfile
+      - run: yarn check:all
+      - run: yarn test
