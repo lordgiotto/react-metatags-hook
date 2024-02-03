@@ -5,6 +5,9 @@ parserOptions:
   ecmaFeatures:
     ecmaVersion: 2020
     jsx: true
+env:
+  browser: true
+  node: true
 settings:
   react:
     version: detect
