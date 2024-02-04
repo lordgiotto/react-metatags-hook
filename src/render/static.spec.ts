@@ -1,7 +1,7 @@
 import { generateMetasMarkup } from './static';
-import { MetaTagModel } from '../types';
+import { MetaTagsModel } from '../types';
 
-const model: MetaTagModel = {
+const model: MetaTagsModel = {
   title: 'My Page title',
   lang: 'en',
   tags: {

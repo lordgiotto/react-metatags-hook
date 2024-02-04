@@ -4,7 +4,7 @@ import {
   LinkTag,
   TagQueryKeys,
   MetaTagsConfig,
-  MetaTagModel,
+  MetaTagsModel,
   InternalTag,
 } from '../types';
 
@@ -54,7 +54,7 @@ const parseMetaConfig = ({
   links = [],
   openGraph = {},
   twitter = {},
-}: MetaTagsConfig): MetaTagModel => {
+}: MetaTagsConfig): MetaTagsModel => {
   const parsedMetaTags = metas.map(createInternalMeta);
   const parsedLinks = links.map(createInternalLink);
   const parsedOpenGraph = Object.keys(openGraph).map((key) =>

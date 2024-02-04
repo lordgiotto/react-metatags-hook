@@ -1,32 +1,54 @@
-import { useRef, useMemo, useEffect } from 'react';
-import { MetaTagsConfig, MetaTagModel } from './types';
-import {
-  parseMetaConfig,
-  subscribeToStore,
-  addMetasToStore,
-  removeMetasFromStore,
-} from './state';
+import { useRef, useEffect } from 'react';
+import { MetaTagsConfig } from './types';
+import { metaTagsStore, parseMetaConfig } from './state';
 import { updateDom } from './render/dom';
 
 // Subscribes to store changes and update DOM
-subscribeToStore((metas) => updateDom(metas, 50));
+metaTagsStore.subscribe((metas) => updateDom(metas, 50));
 
-// NOTE: Decided to use useRef and useMemo rather than useEffect to save the meta configs,
-// since useEffect functions are exectured starting from the inner children up to the root
-// and I want the inner children's metas to override the parent's ones
+// NOTE: useEffects runs from the inner component up to the root, but we want metatags
+// to be merged with a logic of letast rendered components to "win" over the previous ones.
+// So the idea is:
+//  - when a component mounts for the first time we define a unique ID and timestamp for each
+//    "instance" of its useMetaTags usage
+//  - in a useEffect we "register" this instance in the store using the id and the timestams:
+//    even if the useEffects will run with another order (from the inner to the outer component),
+//    the timestamp we generated at the first render of the component will be used to merged
+//    meta tags definitions in the correct order
+//  - everytime a dependency changes, the meta tags config used to replace the meta tags
+//    definitions in the registered "instance" in the store
+//  - When a component is unmounted, the instance is deregistered from the store, and its
+//    meta tags are removed from the result of the final merge
 const useMetaTags = (config: MetaTagsConfig, dependsOn: unknown[]) => {
-  const instanceConfig = useRef<MetaTagModel | undefined>();
-  const metas = useMemo(() => parseMetaConfig(config), dependsOn);
+  const hookInstanceId = useRef(Symbol());
+  const hookInstanceTs = useRef(Date.now());
+  // NOTE: When running on the server, effects doesn't run, so here
+  // metatags are saved within the render function
+  if (typeof window === 'undefined') {
+    metaTagsStore.registerInstance(
+      hookInstanceId.current,
+      hookInstanceTs.current
+    );
+    metaTagsStore.setInstanceMetaTags(
+      hookInstanceId.current,
+      parseMetaConfig(config)
+    );
+  }
   useEffect(() => {
-    // On component unmount its config is removed from the state
+    const deregisterInstance = metaTagsStore.registerInstance(
+      hookInstanceId.current,
+      hookInstanceTs.current
+    );
     return () => {
-      instanceConfig.current && removeMetasFromStore(instanceConfig);
+      deregisterInstance();
     };
   }, []);
-  if (instanceConfig.current !== metas) {
-    instanceConfig.current = metas;
-    instanceConfig.current && addMetasToStore(instanceConfig);
-  }
+  useEffect(() => {
+    const newMetaTagsModel = parseMetaConfig(config);
+    metaTagsStore.setInstanceMetaTags(hookInstanceId.current, newMetaTagsModel);
+    // NOTE: we want to regenerate the meta tags only when the explicit dependencies change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dependsOn]);
 };
 
 export default useMetaTags;

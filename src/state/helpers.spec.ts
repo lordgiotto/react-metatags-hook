@@ -1,7 +1,7 @@
-import { MetaTagModel } from '../types';
+import { MetaTagsModel } from '../types';
 import { getRemovedTags, getTagsList } from './helpers';
 
-const modelA: MetaTagModel = {
+const modelA: MetaTagsModel = {
   title: 'title',
   lang: 'en',
   tags: {
@@ -35,7 +35,7 @@ const modelA: MetaTagModel = {
   },
 };
 
-const modelB: MetaTagModel = {
+const modelB: MetaTagsModel = {
   title: 'title',
   lang: 'en',
   tags: {

@@ -1,4 +1,4 @@
-import { TagQueryKeys, InternalTag, MetaTagModel } from '../types';
+import { TagQueryKeys, InternalTag, MetaTagsModel } from '../types';
 import { getRemovedTags, getTagsList } from '../state';
 
 const getHeadElement = (tagName: string, query: TagQueryKeys[]) => {
@@ -34,9 +34,9 @@ const removeHeadElement = ({ tag, query }: InternalTag) => {
 
 // Public
 let domChangeTimeout: NodeJS.Timeout;
-let lastMetas: MetaTagModel = { tags: {} };
+let lastMetas: MetaTagsModel = { tags: {} };
 
-export const updateDom = (metas: MetaTagModel, debounceTime?: number) => {
+export const updateDom = (metas: MetaTagsModel, debounceTime?: number) => {
   if (typeof window !== 'undefined') {
     window.clearTimeout(domChangeTimeout);
     domChangeTimeout = setTimeout(() => {

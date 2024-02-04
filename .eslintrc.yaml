@@ -18,7 +18,6 @@ extends:
   - prettier
 rules:
   'no-prototype-builtins': off
-  'react-hooks/exhaustive-deps': off
 overrides:
   - files:
       - '*.ts'
