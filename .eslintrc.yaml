@@ -1,26 +1,36 @@
 ---
 root: true
-parser: '@typescript-eslint/parser'
 parserOptions:
   ecmaFeatures:
     ecmaVersion: 2020
     jsx: true
 env:
+  es2020: true
   browser: true
   node: true
 settings:
   react:
     version: detect
-plugins:
-  - '@typescript-eslint'
 extends:
   - eslint:recommended
-  - plugin:@typescript-eslint/recommended
   - plugin:react/recommended
   - plugin:react-hooks/recommended
   - prettier
 rules:
   'no-prototype-builtins': off
   'react-hooks/exhaustive-deps': off
-  '@typescript-eslint/no-unnecessary-type-constraint': off
-  '@typescript-eslint/ban-ts-comment': off
+overrides:
+  - files:
+      - '*.ts'
+      - '*.tsx'
+    parser: '@typescript-eslint/parser'
+    parserOptions:
+      project: './tsconfig.json'
+    plugins:
+      - '@typescript-eslint'
+    extends:
+      - plugin:@typescript-eslint/recommended
+    rules:
+      '@typescript-eslint/no-unnecessary-type-constraint': off
+      '@typescript-eslint/ban-ts-comment': off
+      '@typescript-eslint/no-var-requires': off
