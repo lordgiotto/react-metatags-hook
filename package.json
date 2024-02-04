@@ -38,6 +38,11 @@
     "fix:lint": "eslint --fix ./src",
     "fix:prettier": "prettier -u --write ."
   },
+  "files": [
+    "README.md",
+    "CHANGELOG.md",
+    "/dist"
+  ],
   "devDependencies": {
     "@testing-library/react": "^14.2.1",
     "@types/jest": "^29.5.12",
