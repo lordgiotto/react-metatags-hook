@@ -1,4 +1,4 @@
-import { useRef, useMemo, useEffect, MutableRefObject } from 'react';
+import { useRef, useMemo, useEffect } from 'react';
 import { MetaTagsConfig, MetaTagModel } from './types';
 import {
   parseMetaConfig,
@@ -15,19 +15,17 @@ subscribeToStore((metas) => updateDom(metas, 50));
 // since useEffect functions are exectured starting from the inner children up to the root
 // and I want the inner children's metas to override the parent's ones
 const useMetaTags = (config: MetaTagsConfig, dependsOn: unknown[]) => {
-  const instanceConfig = useRef<MetaTagModel>();
+  const instanceConfig = useRef<MetaTagModel | undefined>();
   const metas = useMemo(() => parseMetaConfig(config), dependsOn);
   useEffect(() => {
     // On component unmount its config is removed from the state
     return () => {
-      instanceConfig.current &&
-        removeMetasFromStore(instanceConfig as MutableRefObject<MetaTagModel>);
+      instanceConfig.current && removeMetasFromStore(instanceConfig);
     };
   }, []);
   if (instanceConfig.current !== metas) {
     instanceConfig.current = metas;
-    instanceConfig.current &&
-      addMetasToStore(instanceConfig as MutableRefObject<MetaTagModel>);
+    instanceConfig.current && addMetasToStore(instanceConfig);
   }
 };
 

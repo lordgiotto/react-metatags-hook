@@ -1,3 +1,4 @@
+import { isTruthy } from '../helpers/narrowing';
 import {
   MetaTag,
   LinkTag,
@@ -17,20 +18,23 @@ const queryableKeys = {
 // Helpers that, given the tag name and the tag attributes,
 // creates the interal tag rappresentation
 const createInternalTag =
-  (tagName: 'meta' | 'link') => (tagAttributes: MetaTag | LinkTag) => {
+  (tagName: 'meta' | 'link') =>
+  (tagAttributes: MetaTag | LinkTag): InternalTag => {
     const tagQueryableKeys = queryableKeys[tagName];
     const queryKeys = tagQueryableKeys
       .concat('id')
-      .map((queryKey) =>
+      .map<TagQueryKeys | undefined>((queryKey) =>
         tagAttributes.hasOwnProperty(queryKey)
           ? { key: queryKey, value: tagAttributes[queryKey] }
           : undefined
       )
-      .filter(Boolean) as TagQueryKeys[];
-    const fallbackQueryKeys = Object.keys(tagAttributes).map((key) => ({
-      key,
-      value: tagAttributes[key],
-    })) as TagQueryKeys[];
+      .filter(isTruthy);
+    const fallbackQueryKeys = Object.keys(tagAttributes).map<TagQueryKeys>(
+      (key) => ({
+        key,
+        value: tagAttributes[key]!,
+      })
+    );
     return {
       tag: tagName,
       query: queryKeys.length ? queryKeys : fallbackQueryKeys,
@@ -85,19 +89,22 @@ const parseMetaConfig = ({
     ...parsedLinks,
     ...parsedOpenGraph,
     ...parsedTwitter,
-  ].filter(
-    (tag) => tag && tag.query && Object.keys(tag.query).length
-  ) as InternalTag[];
-  const tags = fullTagsList.reduce((acc, internalTag) => {
-    const tagQueryId = internalTag.query
-      .map(({ key = '', value = '' }) => `${key}=${value}`)
-      .join('~');
-    const tagId = `${internalTag.tag}_${tagQueryId}`;
-    return {
-      ...acc,
-      [tagId]: internalTag,
-    };
-  }, {});
+  ]
+    .filter(isTruthy)
+    .filter((tag) => tag.query.length);
+  const tags = fullTagsList.reduce<Record<string, InternalTag>>(
+    (acc, internalTag) => {
+      const tagQueryId = internalTag.query
+        .map(({ key = '', value = '' }) => `${key}=${value}`)
+        .join('~');
+      const tagId = `${internalTag.tag}_${tagQueryId}`;
+      return {
+        ...acc,
+        [tagId]: internalTag,
+      };
+    },
+    {}
+  );
   return {
     title,
     lang,

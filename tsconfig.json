@@ -11,7 +11,7 @@
     // TypeChecking
     "strict": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": false,
+    "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
   },
