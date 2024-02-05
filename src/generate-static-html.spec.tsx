@@ -4,7 +4,7 @@
 
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import useMetaTags from './use-meta-tags';
+import { useMetaTags } from './use-meta-tags';
 
 import { generateStaticHtml, resetMetaTags } from './generate-static-html';
 

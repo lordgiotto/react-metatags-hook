@@ -19,7 +19,10 @@ metaTagsStore.subscribe((metas) => updateDom(metas, 50));
 //    definitions in the registered "instance" in the store
 //  - When a component is unmounted, the instance is deregistered from the store, and its
 //    meta tags are removed from the result of the final merge
-const useMetaTags = (config: MetaTagsConfig, dependsOn: unknown[]) => {
+export const useMetaTags = (
+  config: MetaTagsConfig,
+  dependencies: unknown[]
+) => {
   const hookInstanceId = useRef(Symbol());
   const hookInstanceTs = useRef(Date.now());
   // NOTE: When running on the server, effects doesn't run, so here
@@ -48,7 +51,16 @@ const useMetaTags = (config: MetaTagsConfig, dependsOn: unknown[]) => {
     metaTagsStore.setInstanceMetaTags(hookInstanceId.current, newMetaTagsModel);
     // NOTE: we want to regenerate the meta tags only when the explicit dependencies change
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dependsOn]);
+  }, [dependencies]);
 };
 
-export default useMetaTags;
+/**
+ * @deprecated Do not use the default export from 'react-metatags-hook', it will be removed in a future release.
+ *
+ * Please use the named export `useMetaTags`.
+ *
+ * e.g. `import { useMetaTags } from 'react-metatags-hook'`
+ */
+export default (config: MetaTagsConfig, dependencies: unknown[]) => {
+  useMetaTags(config, dependencies);
+};

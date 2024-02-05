@@ -40,7 +40,7 @@ or
 ## Example
 
 ```js
-import useMetaTags from 'react-metatags-hook';
+import { useMetaTags } from 'react-metatags-hook';
 
 const Component = ({ match }) => {
   const {

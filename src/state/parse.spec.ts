@@ -1,4 +1,4 @@
-import parseMetaConfig from './parse';
+import { parseMetaConfig } from './parse';
 
 const metaTagsConfig = {
   title: 'A title',

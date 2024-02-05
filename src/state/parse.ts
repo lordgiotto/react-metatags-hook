@@ -45,7 +45,7 @@ const createInternalMeta = createInternalTag('meta');
 const createInternalLink = createInternalTag('link');
 
 // Transforms the hook's input config into the internal metas model
-const parseMetaConfig = ({
+export const parseMetaConfig = ({
   title,
   description,
   lang,
@@ -111,5 +111,3 @@ const parseMetaConfig = ({
     tags,
   };
 };
-
-export default parseMetaConfig;

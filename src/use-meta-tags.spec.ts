@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import { wait } from './helpers/patience';
-import useMetaTags from './use-meta-tags';
+import { useMetaTags } from './use-meta-tags';
 
 const queryHeadSelectorAttribute = (selector: string, attribute: string) => {
   const element = document.head.querySelector(selector);
