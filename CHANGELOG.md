@@ -11,7 +11,7 @@
 
 ### Breaking Changes
 
-- Library's default export is deprecated. Please import the named export `useMetaTags` instead. (e.g. `import { useMetaTags } from 'react-metatags-hook’`)
+- Library's default export is deprecated. Please import the named export `useMetaTags` instead. (e.g. `import { useMetaTags } from 'react-metatags-hook'`)
 - `useMetaTags()` dependencies array is now required.
 - The logic of meta tags merging from multiple `useMetaTags()`, while following the same principles as before, has been completely reworked in the implementation: in case of unexpected behaviours, please [open an issue](https://github.com/lordgiotto/react-metatags-hook/issues/new).
 - Target for transpiled code changed from `es5` to `es6/es2015`, so legacy browsers (Internet Explorer) or very old NodeJS version are no longer supported without transpilation.
