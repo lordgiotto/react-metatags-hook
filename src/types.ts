@@ -41,7 +41,7 @@ export interface InternalTag {
     [attributeKey: string]: string | undefined;
   };
 }
-export interface MetaTagModel {
+export interface MetaTagsModel {
   title?: string;
   lang?: string;
   tags: {

@@ -1,20 +1,30 @@
+/**
+ * @jest-environment node
+ */
+
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import useMetaTags from './use-meta-tags';
+import { useMetaTags } from './use-meta-tags';
 
 import { generateStaticHtml, resetMetaTags } from './generate-static-html';
 
 describe('generateStaticHtml', () => {
   const App1 = () => {
-    useMetaTags({
-      title: 'A Title',
-    });
+    useMetaTags(
+      {
+        title: 'A Title',
+      },
+      []
+    );
     return <div>App1</div>;
   };
   const App2 = () => {
-    useMetaTags({
-      description: 'A Description',
-    });
+    useMetaTags(
+      {
+        description: 'A Description',
+      },
+      []
+    );
     return <div>App2</div>;
   };
   describe('when the component is rendered as a string', () => {

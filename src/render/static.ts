@@ -1,8 +1,8 @@
-import { MetaTagModel } from '../types';
+import { MetaTagsModel } from '../types';
 import { getTagsList } from '../state';
 
 // Public
-export const generateMetasMarkup = (metas: MetaTagModel) => {
+export const generateMetasMarkup = (metas: MetaTagsModel) => {
   const title = metas.title ? `<title>${metas.title}</title>` : '';
   const tagsList = getTagsList(metas);
   const tags = tagsList.map(({ attributes, tag }) => {
